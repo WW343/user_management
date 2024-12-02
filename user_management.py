@@ -64,4 +64,3 @@ def validate_pesel(pesel:str):
         return False
 
 
-print(validate_pesel("04250405514"))
