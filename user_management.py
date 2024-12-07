@@ -9,16 +9,55 @@ pesel_weight = [1, 3, 7, 9, 1, 3, 7, 9, 1, 3]
 regon_weight_9 = [8, 9, 2, 3, 4, 5, 6, 7]
 regon_weight_14 = [2, 4, 8, 5, 0, 9, 7, 3, 6, 1, 2, 4, 8]
 
-def add_user(user_data):
-    """ Add a user using:user_data """
+def add_user():
+    """ Add a user using:pesel,password,nip,regon """
+    pesel = input("Enter your Pesel whom became you user_id:  ")
+    if validate_pesel(pesel) == False:
+        print("Invalid PESEL")
+    else:
+        print("Password restriction:need at least 12 long, have capital letters,have small letters, digits, special characters")
+        action = int(input("Choose:1.Write your own password, 2.Generate password   "))
+        match action:
+            case 1: 
+                password = input("Enter your password") 
+            case 2: 
+                password = generate_password()
+                print(f"Your generated password is:{password} ")  
+        if validate_password(password) == False:
+            print( "Invalid Password,password needs at least 12 long, have capital letters,have small letters, digits, special characters")
+        else:
+            nip = input("Enter nip:   ")
+            if validate_nip(nip) == False:
+                print("Invalid NIP")
+            else:
+                regon = input("Enter your regon:    ")
+                if validate_regon(regon) == False:
+                    print ("Invalid Regon")
+                else:
+                    user = {
+                        'user_id': pesel,
+                        'password': password,
+                        'nip': nip,
+                        'regon': regon
+                    }
+                    with open(The_json_file,"r") as file:
+                        try:
+                            data = json.load(file)
+                        except json.JSONDecodeError:
+                            data = []
+                    user_exist = False
+                    for every in data:
+                        if every['user_id'] == pesel:
+                            print("User of that Pesel already exist")
+                            user_exist = True
+                    if user_exist == False:
+                        print("User added")
+                        data.append(user)
+                    
+                    with open(The_json_file, 'w') as f:
+                        json.dump(data, f)
+                    
 
-
-# dodaj funkcje która losowo tworzy user id tak żeby też się nie powtarzała, albo zrób tak że user_id to Pesel bo pesel jest unikalny
-
-    # validate_nip(nip)
-    # validate_pesel(pesel)
-    # validate(regon)
-    pass
 
 def edit_user(user_id,updated_data):
     """Enter user id, then entern updated data, to update user data"""
@@ -31,8 +70,25 @@ def edit_user(user_id,updated_data):
             # wyszukaj user_id, usuń rekord związany z user id lub zastąp dane potem zapisz dane do pliku
     pass
 
-def remove_user(user_id):
-     pass
+# def remove_user(pesel):
+#     customer_name = input("Write your name: ")
+#     with open(The_json_file,"r") as file:
+#         try:
+#             data = json.load(file)
+#         except json.JSONDecodeError:
+#             data = []
+#     user_exist = False
+#     counter = 0
+#     for every in data:
+#         if every['name'] == customer_name:
+#             data.pop(counter)
+#             user_exist = True
+#             counter +=1
+#             break
+#     if user_exist == False:
+#         print("User doesn't exist so you can't delete that reservation")
+#     with open(The_json_file, 'w') as f:
+#         json.dump(data, f)
 
 def load_users():
      pass
@@ -77,19 +133,20 @@ def validate_pesel(pesel:str):
         return False
 
 def validate_regon(regon:str):
-    if regon == 9 or regon == 14:
-        if regon == 9:
+    if len(regon) == 9 or len(regon) == 14:
+        if len(regon) == 9:
             regon_sum = 0
             for i in range(len(regon)-1):
                 regon_sum  += int(regon[i]) * regon_weight_9[i]
-            if regon_sum%11 ==regon[8]:
+
+            if regon_sum%11 ==int(regon[8]):
                 return True
             else:
                 return False
-        elif regon == 14:
+        elif len(regon) == 14:
             for i in range(len(regon)-1):
                 regon_sum  += int(regon[i]) * regon_weight_14[i]
-            if regon_sum%11 ==regon[13]:
+            if regon_sum%11 ==int(regon[13]):
                 return True
             else:
                 return False
@@ -118,3 +175,7 @@ def validate_password(password:str):
             return True
         else:
             return False
+
+add_user()
+
+# print(validate_regon("123456785"))
