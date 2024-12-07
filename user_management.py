@@ -96,11 +96,23 @@ def validate_regon(regon:str):
     else:
         return False
 
-# def generate_password():
-#     """Generate random pass that: is  12 long, have capital letters,have small letters, digits, special characters  """
-#     chars=string.ascii_letters + string.digits + string.printable
-#     return ''.join(random.choice(chars) for _ in range(11))
+def generate_password():
+    """Generate random pass that: is  12 long, have capital letters,have small letters, digits, special characters  """
+    chars=string.ascii_uppercase +string.ascii_lowercase + string.digits + string.punctuation
+     ''.join(random.choice(chars) for _ in range(12))
 
+def validate_password(password:str):
+    if len(password) <12:
+        return False
+    else:
+        upcase = any(char in string.ascii_uppercase for char in password)
+        lowcase = any(char in string.ascii_lowercase for char in password)
+        digits = any(char in string.digits for char in password)
+        special = any(char in string.punctuation for char in password)
+        if upcase and lowcase and digits and special :
+            return True
+        else:
+            return False
+print(generate_password())
 
-
-# print(generate_password())
+# print(validate_password("@OS{Jk^{E>7"))
