@@ -37,70 +37,61 @@ def remove_user(user_id):
 def load_users():
      pass
 
-def validate_nip(nip:str):
-    """Check if NIP is good"""
-    if len(nip) == 10:
-        nip_sum = 0
-        for i in range(len(nip)-1):
-            nip_sum  += int(nip[i]) * nip_weight[i]
-        if nip_sum % 11 == int(nip[9]):
-            return True
-        else:
-            return False
-    else:
-        return False
+# def validate_nip(nip:str):
+#     """Check if NIP is good"""
+#     if len(nip) == 10:
+#         nip_sum = 0
+#         for i in range(len(nip)-1):
+#             nip_sum  += int(nip[i]) * nip_weight[i]
+#         if nip_sum % 11 == int(nip[9]):
+#             return True
+#         else:
+#             return False
+#     else:
+#         return False
     
-def check_birht(pesel:str):
-    """Check birth day from pessel beetwen 1900-2099 year"""
-    year = pesel[0]+pesel[1]
-    month = pesel[2]+pesel[3]
-    day = pesel[4]+pesel[5]
-    if int(month) <20:
-        return int(day),int(month),int("19"+year)
-    elif int(month) >20:
-        return int(day), int(month)-20,int("20"+year)
+# def check_birht(pesel:str):
+#     """Check birth day from pessel beetwen 1900-2099 year"""
+#     year = pesel[0]+pesel[1]
+#     month = pesel[2]+pesel[3]
+#     day = pesel[4]+pesel[5]
+#     if int(month) <20:
+#         return int(day),int(month),int("19"+year)
+#     elif int(month) >20:
+#         return int(day), int(month)-20,int("20"+year)
 
 
-def validate_pesel(pesel:str):
-    """Check if PESEL is good and return date of birth"""
-    if len(pesel) == 11:
-        pesel_sum = 0
-        for i in range(len(pesel)-1):
-            pesel_sum  += int(pesel[i]) * pesel_weight[i]
-        last_digit = (str(pesel_sum)[2])
+# def validate_pesel(pesel:str):
+#     """Check if PESEL is good and return date of birth"""
+#     if len(pesel) == 11:
+#         pesel_sum = 0
+#         for i in range(len(pesel)-1):
+#             pesel_sum  += int(pesel[i]) * pesel_weight[i]
+#         last_digit = (str(pesel_sum)[2])
 
-        if 10 - int(last_digit) == int(pesel[10]):
-            return True,check_birht(pesel)
-        else:
-            return False
-    else:
-        return False
+#         if 10 - int(last_digit) == int(pesel[10]):
+#             return True,check_birht(pesel)
+#         else:
+#             return False
+#     else:
+#         return False
 
-def validate_regon(regon:str):
-    if regon == 9 or regon == 14:
-        if regon == 9:
-            regon_sum = 0
-            for i in range(len(regon)-1):
-                regon_sum  += int(regon[i]) * regon_weight_9[i]
-            if regon_sum%11 ==regon[8]:
-                return True
-            else:
-                return False
-        elif regon == 14:
-            for i in range(len(regon)-1):
-                regon_sum  += int(regon[i]) * regon_weight_14[i]
-            if regon_sum%11 ==regon[13]:
-                return True
-            else:
-                return False
-    else:
-        return False
-
-# def generate_password():
-#     """Generate random pass that: is  12 long, have capital letters,have small letters, digits, special characters  """
-#     chars=string.ascii_letters + string.digits + string.printable
-#     return ''.join(random.choice(chars) for _ in range(11))
-
-
-
-# print(generate_password())
+# def validate_regon(regon:str):
+#     if regon == 9 or regon == 14:
+#         if regon == 9:
+#             regon_sum = 0
+#             for i in range(len(regon)-1):
+#                 regon_sum  += int(regon[i]) * regon_weight_9[i]
+#             if regon_sum%11 ==regon[8]:
+#                 return True
+#             else:
+#                 return False
+#         elif regon == 14:
+#             for i in range(len(regon)-1):
+#                 regon_sum  += int(regon[i]) * regon_weight_14[i]
+#             if regon_sum%11 ==regon[13]:
+#                 return True
+#             else:
+#                 return False
+#     else:
+#         return False
