@@ -59,39 +59,73 @@ def add_user():
                     
 
 
-def edit_user(user_id,updated_data):
-    """Enter user id, then entern updated data, to update user data"""
+def edit_user():
+    """Enter user id to begin changing user values"""
     with open(The_json_file,"r+") as file:
         try:
             data = json.load(file)
         except json.JSONDecodeError:
             data = []
+    pesel = input("Enter your user PESEL:  ")
+    if validate_pesel(pesel) == False:
+        print("Invalid PESEL")
+    else:
+        for every in data:
+            if every['user_id'] == pesel:
+                print("User found, begining the editing")
+                print("Password restriction:need at least 12 long, have capital letters,have small letters, digits, special characters")
+                action = int(input("Choose:1.Write your own password, 2.Generate password   "))
+                match action:
+                    case 1: 
+                        password = input("Enter your password") 
+                    case 2: 
+                        password = generate_password()
+                        print(f"Your generated password is:{password} ")  
+                if validate_password(password) == False:
+                    print( "Invalid Password,password needs at least 12 long, have capital letters,have small letters, digits, special characters")
+                else:
+                    nip = input("Enter nip:   ")
+                    if validate_nip(nip) == False:
+                        print("Invalid NIP")
+                    else:
+                        regon = input("Enter your regon:    ")
+                        if validate_regon(regon) == False:
+                            print ("Invalid Regon")
+                        else:
+                            every['user_id'] = pesel
+                            every['password'] = password
+                            every['nip'] = nip
+                            every["regon"] = regon
+                            print("User edited succesfully")
+                            with open(The_json_file, 'w') as f:
+                                json.dump(data, f)
 
-            # wyszukaj user_id, usuń rekord związany z user id lub zastąp dane potem zapisz dane do pliku
-    pass
-
-# def remove_user(pesel):
-#     customer_name = input("Write your name: ")
-#     with open(The_json_file,"r") as file:
-#         try:
-#             data = json.load(file)
-#         except json.JSONDecodeError:
-#             data = []
-#     user_exist = False
-#     counter = 0
-#     for every in data:
-#         if every['name'] == customer_name:
-#             data.pop(counter)
-#             user_exist = True
-#             counter +=1
-#             break
-#     if user_exist == False:
-#         print("User doesn't exist so you can't delete that reservation")
-#     with open(The_json_file, 'w') as f:
-#         json.dump(data, f)
+def remove_user():
+    pesel = input("Enter your user PESEL:  ")
+    if validate_pesel(pesel) == False:
+        print("Invalid PESEL")
+    with open(The_json_file,"r") as file:
+        try:
+            data = json.load(file)
+        except json.JSONDecodeError:
+            data = []
+    user_exist = False
+    counter = 0
+    for every in data:
+        if every['user_id'] == pesel:
+            data.pop(counter)
+            user_exist = True
+            counter +=1
+            break
+    if user_exist == False:
+        print("User doesn't exist so you can't do that operation")
+    with open(The_json_file, 'w') as f:
+        json.dump(data, f)
 
 def load_users():
-     pass
+    with open(The_json_file,"r") as file:
+        data = json.load(file)
+        print(data)
 
 def validate_nip(nip:str):
     """Check if NIP is good"""
@@ -176,6 +210,14 @@ def validate_password(password:str):
         else:
             return False
 
-add_user()
-
-# print(validate_regon("123456785"))
+def main():
+    while True:
+        print("1.Add User \n2.Edit User \n3.Remove User \n4.See all recoird \n5.Exit prgram ")
+        action = int(input("Choose action:"))
+        match action:
+            case 1: add_user()
+            case 2: edit_user()
+            case 3: remove_user()
+            case 4: load_users()
+            case 5: break
+main()
