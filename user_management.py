@@ -55,7 +55,7 @@ def add_user():
                         data.append(user)
                     
                     with open(The_json_file, 'w') as f:
-                        json.dump(data, f)
+                        json.dump(data, f,indent=4)
                     
 
 
